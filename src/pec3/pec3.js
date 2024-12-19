@@ -49,12 +49,30 @@ export function fetchUserPromise(id) {
 
 // Exercise 4
 export async function fetchAsyncData(asyncCallback) {
-
+    try {
+        const result = await asyncCallback();
+        return {
+            status: "success",
+            data: result
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message: error
+        };
+    }
 }
 
 // Exercise 5
 export async function getCommentsAsync(fetchUser, fetchPosts, fetchComments) {
-
+    try {
+        const userId = await fetchUser();
+        const postIds = await fetchPosts(userId);
+        const comments = await fetchComments(postIds);
+        return comments;
+    } catch (error) {
+        throw new Error(`Error: ${error}`);
+    }
 }
 
 // Exercise 6 
