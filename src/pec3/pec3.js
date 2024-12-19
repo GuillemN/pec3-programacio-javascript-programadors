@@ -15,7 +15,19 @@ export function fetchUser(id, callback) {
 
 // Exercise 2
 export function getComments(fetchUser, fetchPosts, fetchComments) {
-
+    return fetchUser()
+    .then((userId) => {
+        return fetchPosts(userId);
+    })
+    .then((postIds) => {
+        return fetchComments(postIds);
+    })
+    .then((comments) => {
+        return comments;
+    })
+    .catch((error) => {
+        throw new Error(`Error: ${error}`);
+    });
 }
 
 // Exercise 3
