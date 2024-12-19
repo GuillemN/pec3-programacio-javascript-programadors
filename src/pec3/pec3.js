@@ -77,5 +77,28 @@ export async function getCommentsAsync(fetchUser, fetchPosts, fetchComments) {
 
 // Exercise 6 
 export function createTaskWorker() {
-
+    const tasks = [];
+    const addTask = (task) => {
+        const taskInfo = {
+            status: "pending",
+            result: null,
+            error: null,
+        };
+        tasks.push(taskInfo);
+        setTimeout(async () => {
+            try {
+                taskInfo.status = "in-progress";
+                const result = await task();
+                taskInfo.status = "completed";
+                taskInfo.result = result;
+            } catch (error) {
+                taskInfo.status = "failed";
+                taskInfo.error = error instanceof Error ? error.message : error;
+            }
+        }, 0);
+    };
+    const getStatus = () => {
+        return tasks.map((task) => ({ ...task }));
+    };
+    return { addTask, getStatus };
 }
