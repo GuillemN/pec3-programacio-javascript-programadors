@@ -32,7 +32,19 @@ export function getComments(fetchUser, fetchPosts, fetchComments) {
 
 // Exercise 3
 export function fetchUserPromise(id) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (typeof id !== 'number') {
+                reject(new Error('Provided id not valid')); 
+                return;
+            }
+            if (id >= 1 && id <= 999) {
+                resolve({ id, name: `User ${id}` }); 
+            } else {
+                reject(new Error('User id not found')); 
+            }
+        }, 200);
+    });
 }
 
 // Exercise 4
